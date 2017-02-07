@@ -6,6 +6,7 @@ from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.neural_network import MLPClassifier
 from sklearn.decomposition import PCA
 import time
 #from sklearn import datasets
@@ -51,6 +52,7 @@ def main():
 	clfN = trainKNN(features, labels)
 	clfD = trainDTC(features, labels)
 	clfB = trainGNB(features, labels)
+	clfM = trainMLP(features, labels)
 	
 	daisyTest = pca.transform(daisyTest)
 	print("SVM")
@@ -61,30 +63,36 @@ def main():
 	print(clfD.score(daisyTest, daisyLabel))
 	print("Naive Bayes")
 	print(clfB.score(daisyTest, daisyLabel))
+	print("MLP")
+	print(clfM.score(daisyTest, daisyLabel))
 	print("-----------------------")
 
 	
 	roseTest = pca.transform(roseTest)
 	print("SVM")
-	print(clfS.score(daisyTest, daisyLabel))
+	print(clfS.score(roseTest, roseLabel))
 	print("K Nearest Neighbors")
-	print(clfN.score(daisyTest, daisyLabel))
+	print(clfN.score(roseTest, roseLabel))
 	print("Decision Tree")
-	print(clfD.score(daisyTest, daisyLabel))
+	print(clfD.score(roseTest, roseLabel))
 	print("Naive Bayes")
-	print(clfB.score(daisyTest, daisyLabel))
+	print(clfB.score(roseTest, roseLabel))
+	print("MLP")
+	print(clfM.score(roseTest, roseLabel))
 	print("-----------------------")
 
 	
 	tulipTest = pca.transform(tulipTest)
 	print("SVM")
-	print(clfS.score(daisyTest, daisyLabel))
+	print(clfS.score(tulipTest, tulipLabel))
 	print("K Nearest Neighbors")
-	print(clfN.score(daisyTest, daisyLabel))
+	print(clfN.score(tulipTest, tulipLabel))
 	print("Decision Tree")
-	print(clfD.score(daisyTest, daisyLabel))
+	print(clfD.score(tulipTest, tulipLabel))
 	print("Naive Bayes")
-	print(clfB.score(daisyTest, daisyLabel))
+	print(clfB.score(tulipTest, tulipLabel))
+	print("MLP")
+	print(clfM.score(tulipTest, tulipLabel))
 	#print("-----------------------")
 	
 
@@ -120,6 +128,14 @@ def trainSVM(trainSet, trainLabels):
 	end = time.time()
 	printTime(start, end, "fitting the SVM")
 	return clfS
+
+def trainMLP(trainSet, trainLabels):
+	start = time.time()
+	clfM = MLPClassifier()
+	clfM.fit(trainSet, trainLabels)
+	end = time.time()
+	printTime(start, end, "fitting the MLP")
+	return clfM
 
 def getImage(imageClass):
 	baseImagePath = os.path.join(os.getcwd(), "flower_photos", imageClass)
